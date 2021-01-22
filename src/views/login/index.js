@@ -65,7 +65,7 @@ export default function SignIn() {
       localStorage.setItem('fullName',res.data.user[0].fullName)
       localStorage.setItem('MaNV',res.data.user[0].MaNV)
       localStorage.setItem('ChucVu',res.data.user[0].ChucVu)
-      console.log(res.data.user[0].ChucVu)
+      console.log(localStorage.getItem('ChucVu'))
       setError(false)
       if(res.data.user[0].ChucVu.toString()==='1')
         {

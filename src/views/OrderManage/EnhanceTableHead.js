@@ -6,14 +6,12 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 const headCells = [
-	{ id: 'id', disablePadding: true, label: 'Id' },
-	{id: 'LoaiP',disablePadding:true,label:'LoaiP'},
-	{id: 'GiaThue', disablePadding: false, label: 'GiaThue' },
-	{ id: 'KhuyenMai', disablePadding: false, label: 'KhuyenMai' },
-	{ id: 'SoNguoiToiDa', disablePadding: false, label: 'SoNguoiToiDa' },
-	{ id: 'MoTa', disablePadding: false, label: 'MoTa' },
-	{ id: 'TrangThai', disablePadding: false, label: 'TrangThai' },
-	{ id: 'Xemchitiet', disablePadding: false, label: 'XemChiTiet' },
+	{ id: 'MaHD', disablePadding: true, label: 'MaHD' },
+	{ id: 'NgayTao', disablePadding: false, label: 'NgayTao' },
+	{ id: 'HinhThucTT', disablePadding: false, label: 'HinhThucTT' },
+	{ id: 'TongTienThu', disablePadding: false, label: 'TongTienThu' },
+	{ id: 'MaPDP', disablePadding: false, label: 'MaPDP' },
+	{ id: 'TenNhanVien', disablePadding: false, label: 'TenNhanVien' },
 ];
 
 const EnhancedTableHead = (props) => {
@@ -22,8 +20,6 @@ const EnhancedTableHead = (props) => {
 	const createSortHandler = (property) => (event) => {
 		onRequestSort(event, property);
 	};
-
-
 	return (
 		<TableHead>
 			<TableRow>
@@ -31,14 +27,14 @@ const EnhancedTableHead = (props) => {
 
 				</TableCell>
 				{headCells.map((headCell) => {
-					if (headCell.id !== 'MoTa') {
+					if (headCell.id !== 'MaHD') {
 						return (
 							<TableCell
 								key={headCell.id}
 								align='left'
 								padding={headCell.disablePadding ? 'none' : 'default'}
 								sortDirection={orderBy === headCell.id ? order : false}
-								width = {'7%'}
+								width = {'18%'}
 							>
 								<TableSortLabel
 									active={orderBy === headCell.id}
@@ -55,13 +51,13 @@ const EnhancedTableHead = (props) => {
 							</TableCell>
 						)
 					}
-					else{
+					else {
 						return (
 							<TableCell
 								key={headCell.id}
 								align='left'
 								padding={headCell.disablePadding ? 'none' : 'default'}
-								width='40%'
+								width='10%%'
 							>
 								{headCell.label}
 							</TableCell>

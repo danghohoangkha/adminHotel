@@ -6,7 +6,7 @@ import getSidebarNavItems from "../data/sidebar-nav-items";
 
 let _store = {
   menuVisible: false,
-  navItems: localStorage.getItem('ChucVu').toString() === '1' ? getSidebarNavItems() : localStorage.getItem('ChucVu')=== '2' ? 
+  navItems: localStorage.getItem('ChucVu') === 1 ? getSidebarNavItems() : localStorage.getItem('ChucVu')=== 2 ? 
   [{
     title: "Thong Ke Doanh Thu",
     htmlBefore: '<i class="material-icons">note_add</i>',
@@ -47,8 +47,33 @@ class Store extends EventEmitter {
   }
 
   getSidebarItems() {
-    console.log(localStorage.getItem('ChucVu  '))
-    return _store.navItems;
+    console.log('Chay side nav bar')
+    console.log(localStorage.getItem('ChucVu'))
+    const nav2= [{
+      title: "Thong Ke Doanh Thu",
+      htmlBefore: '<i class="material-icons">note_add</i>',
+      to: "/Revenue",
+    }] 
+    const nav3= [{
+      title : "Tạo hóa đơn",
+      htmlBefore: '<i class="material-icons">note_add</i>',
+      to: "/CreateOrder"
+    },{
+      title:"Quản lí hóa đơn",
+      htmlBefore: '<i class="material-icons">note_add</i>',
+      to: "/OrderManage"
+    }]
+    if(localStorage.getItem('ChucVu')==='1')
+    {
+      return getSidebarNavItems();
+    }
+    else if(localStorage.getItem('ChucVu')==='2')
+    {
+      return nav2;
+    }
+    else{
+      return nav3;
+    }
   }
 
   addChangeListener(callback) {

@@ -15,6 +15,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 // import Input from '@material-ui/core/Input';
 // import Select from '@material-ui/core/Select';
 import {useLoginContext} from '../../context/context'
+import { set } from 'react-ga';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -52,45 +53,53 @@ const useStyles = makeStyles((theme) => ({
 export default function AddRoom() {
   let history = useHistory();
   const classes = useStyles();
-  const [LoaiP,setLoaiP] = React.useState('')
-  const [GiaThue,setGiaThue]=React.useState('')
-  const [KhuyenMai,setKhuyenMai]=React.useState('')
-  const [SoNguoiToiDa,setSoNguoiToiDa]=React.useState(1)
-  const [MoTa,setMoTa]=React.useState('')
+
   const [error,setError]=React.useState(false)
   const [success,setSuccess]=React.useState(false)
-  const typeRoom = [{title : 'đôisang'},{title:'đôithường'},{title:'đơnsang'},{title:'đơnthường'}]
+  const [totalOrder,setTotalOrder]=React.useState(0);
+  const [phieuDatPhong,setPhieuDatPhong]=React.useState([])
+  const [HinhThucTT,setHinhThucTT]=React.useState('')
+  const [MaPDP,setMaPDP]=React.useState('')
+  const typePay = [{title : 'tiền mặt'},{title:'ví điện tử'}]
   const handleSubmit = (e)=>{
     e.preventDefault()
-    callAPI(`addRoom`, 'POST',{'LoaiP':LoaiP,'GiaThue':GiaThue,'KhuyenMai':KhuyenMai,'SoNguoiToiDa':SoNguoiToiDa,'MoTa':MoTa}).then(res =>{
-        console.log('Vao day roi ne')
-        history.push('/')
+    callAPI(`createOrder`, 'POST',{'totalOrder' : totalOrder,'HinhThucTT' : HinhThucTT,'MaPDP' : MaPDP,'MaNV' : localStorage.getItem('MaNV')}).then(res =>{
+      console.log('Oke')
+      setSuccess(true)
     }).catch(error=>{
       console.log(error)
       setError(true)
     })
   }
-
-  const handleChangeCbb = (value)=>{
-    setLoaiP(value.title)
+  React.useEffect(()=>{
+    callAPI('phieudatphong','GET',null).then(res=>{
+      console.log(res.data)
+      let arr = []
+      res.data.forEach(element => {
+        let temp={}
+        temp['MaPDP']='Ma Phieu Dat Phong: ' + element.MaPDP + ' | Ma Khach Hang: ' +element.HoTen
+        arr.push(temp)
+      });
+      console.log(arr)
+      setPhieuDatPhong(arr)
+    }).catch(error)
+    {
+      console.log(error)
+    }
+  },[])
+  const handleChangeCbb = (event,value,type)=>{
+    if(type===1)
+    {
+      console.log(value.title)
+      setHinhThucTT(value.title)
+    }
+    else 
+    {
+      setMaPDP(value.MaPDP.split(' ')[4])
+    }
   }
-  const handleChangeInPut = (e,type)=>{
-      if(type===4)
-      {
-          setMoTa(e.target.value)
-      }
-      else if(type===1)
-      {
-          setGiaThue(e.target.value)
-      }
-      else if(type===2)
-      {
-          setKhuyenMai(e.target.value)
-      }
-      else
-      {
-          setSoNguoiToiDa(e.target.value)
-      }
+  const handleChangeInPut = (e)=>{
+    setTotalOrder(e.target.value)
   }
   return (
     <Container component="main" maxWidth="xs">
@@ -100,69 +109,45 @@ export default function AddRoom() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Thêm phòng
+          Thêm hóa đơn
         </Typography>
         <Typography component="h1" variant="h5" className={error ? "":classes.displaycls}>
-          Thêm phòng thất bại
+          Thêm Hóa đơn thất bại
         </Typography>
         <Typography component="h1" variant="h5" className={success ? "":classes.displaycls}>
-          Thêm phòng thất bại
+          Thêm hóa đơn thành công
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit}>
             <Autocomplete
             id="combo-box-demo"
-            options={typeRoom}
+            options={typePay}
             getOptionLabel={(option) => option.title}
             style={{ width: 400 }}
-            renderInput={(params) => <TextField {...params} label="Loại phòng" variant="outlined" />}
-            onChange={(event, newValue) => handleChangeCbb(newValue)}
+            renderInput={(params) => <TextField {...params} label="Hình thức thanh toán" variant="outlined" />}
             required
+            onChange={(event,value)=>handleChangeCbb(event,value,1)}
+            />
+            <Autocomplete
+            id="combo-box-demo"
+            options={phieuDatPhong}
+            getOptionLabel={(option) => option.MaPDP}
+            style={{ width: 400 }}
+            renderInput={(params) => <TextField {...params} label="Phiếu đặt phòng" variant="outlined" />}
+            required
+            onChange={(event,value)=>handleChangeCbb(event,value,2)}
             />
             <TextField
             variant="outlined"
             margin="normal"
             required
             fullWidth
-            id="GiaThue"
-            label="GiaThue"
-            name="GiaThue"
+            id="Total"
+            label="Total"
+            name="Total"
+            type = "Number"
+            InputProps={{ inputProps: { min: 0 } }}
             autoFocus
-            onChange={(e)=>handleChangeInPut(e,1)}
-          />
-            <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="KhuyenMai"
-            label="KhuyenMai"
-            name="KhuyenMai"
-            autoFocus
-            onChange={(e)=>handleChangeInPut(e,2)}
-          />
-           <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="SoNguoiToiDa"
-            label="SoNguoiToiDa"
-            name="SoNguoiToiDa"
-            type = "Number" 
-            InputProps={{ inputProps: { min: 1, max: 4 } }}
-            autoFocus
-            onChange={(e)=>handleChangeInPut(e,3)}
-          />
-           <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="MoTa"
-            label="MoTa"
-            name="MoTa"
-            autoFocus
-            onChange={(e)=>handleChangeInPut(e,4)}
+            onChange={(e)=>handleChangeInPut(e)}
           />
           <Button
             type="submit"

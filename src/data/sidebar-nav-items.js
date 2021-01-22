@@ -31,5 +31,10 @@ export default function() {
       htmlBefore: '<i class="material-icons">table_chart</i>',
       to: "/user-management",
     },
+    {
+      title: "Add Employee",
+      htmlBefore: '<i class="material-icons">table_chart</i>',
+      to: "/AddEmployee",
+    },
   ];
 }

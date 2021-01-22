@@ -8,7 +8,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 const headCells = [
 	{ id: 'id', disablePadding: true, label: 'ID' },
 	{ id: 'HoTen', disablePadding: false, label: 'Name' },
-	{ id: 'GioiTinh', disablePadding: false, label: 'Email' },
+	{ id: 'GioiTinh', disablePadding: false, label: 'GioiTinh' },
 	{ id: 'DiaChi', disablePadding: false, label: 'Address' },
 	{ id: 'ChucVu', disablePadding: false, label: 'ChucVu' },
 	

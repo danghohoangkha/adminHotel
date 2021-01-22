@@ -17,6 +17,9 @@ import AddRoom from './views/addRoom';
 import Room from './views/roomDetail';
 import Employee from './views/Employee';
 import CreateOrder from './views/CreateOrder';
+import OrderManage from './views/OrderManage';
+import DetailOrder from './views/detaIlOrder';
+import AddEmployee from './views/AddEmployee';
 // import { NotificationsNone } from "@material-ui/icons";
 export default [
   {
@@ -90,5 +93,20 @@ export default [
    path: "/createOrder",
    layout : DefaultLayout,
    component :  CreateOrder
-  }
+  },
+  {
+    path: "/OrderManage",
+    layout : DefaultLayout,
+    component :  OrderManage
+   },
+   {
+    path: "/Detail-Order/:id",
+    layout : DefaultLayout,
+    component: (location)=><DetailOrder location = {location}/>
+   },
+   {
+      path: '/AddEmployee',
+      layout: DefaultLayout,
+      component : AddEmployee
+   }
 ];

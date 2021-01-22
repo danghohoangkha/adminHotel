@@ -12,6 +12,7 @@ import Container from '@material-ui/core/Container';
 import { useHistory } from "react-router-dom";
 import callAPI from '../../utils/callAPI';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 // import Input from '@material-ui/core/Input';
 // import Select from '@material-ui/core/Select';
 import {useLoginContext} from '../../context/context'
@@ -108,7 +109,7 @@ export default function AddRoom() {
         <Typography component="h1" variant="h5" className={success ? "":classes.displaycls}>
           Thêm phòng thất bại
         </Typography>
-        <form className={classes.form} noValidate onSubmit={handleSubmit}>
+        <form className={classes.form} onSubmit={handleSubmit}>
             <Autocomplete
             id="combo-box-demo"
             options={typeRoom}
@@ -153,7 +154,7 @@ export default function AddRoom() {
             autoFocus
             onChange={(e)=>handleChangeInPut(e,3)}
           />
-           <TextField
+           {/* <TextField
             variant="outlined"
             margin="normal"
             required
@@ -163,7 +164,8 @@ export default function AddRoom() {
             name="MoTa"
             autoFocus
             onChange={(e)=>handleChangeInPut(e,4)}
-          />
+          /> */}
+           <TextareaAutosize aria-label="empty textarea" rowsMin={3} placeholder='Mô tả ' onChange={(e)=>handleChangeInPut(e,4)}/>
           <Button
             type="submit"
             fullWidth

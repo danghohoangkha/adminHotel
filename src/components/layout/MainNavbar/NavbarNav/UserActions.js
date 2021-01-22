@@ -23,8 +23,7 @@ export default function UserActions ({fullName}) {
   // }
   const [visible,setVisible]=React.useState();
   const onLogout = ()=>{
-    localStorage.setItem("token","")
-    localStorage.setItem('ChucVu','')
+    localStorage.clear()
     hiatory.push('/login')
   }
   const toggleUserActions =()=> {

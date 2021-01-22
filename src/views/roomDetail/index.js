@@ -14,9 +14,7 @@ import callAPI from '../../utils/callAPI';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 // import Input from '@material-ui/core/Input';
 // import Select from '@material-ui/core/Select';
-import {useLoginContext} from '../../context/context'
-import { Label } from '@material-ui/icons';
-import { FormLabel } from '@material-ui/core';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -95,7 +93,7 @@ export default function DetailRoom({location}) {
       setLoaiP(value.title)
     }
     else{
-      setTrangThai(value.title)
+      setTrangThai(value.value)
     }
     
   }
@@ -192,7 +190,7 @@ export default function DetailRoom({location}) {
             onChange={(e)=>handleChangeInPut(e,3)}
           />
           <h5>Mô tả</h5>
-           <TextField
+           {/* <TextField
             variant="outlined"
             margin="normal"
             required
@@ -202,14 +200,15 @@ export default function DetailRoom({location}) {
             name="MoTa"
             autoFocus
             onChange={(e)=>handleChangeInPut(e,4)}
-          />
+          /> */}
+          <TextareaAutosize aria-label="empty textarea" rowsMin={3} placeholder={dataRoom.MoTa} onChange={(e)=>handleChangeInPut(e,4)}/>
           <h5>Trạng thái phòng</h5>
           <Autocomplete
             id="combo-box-demo"
-            options={[{title:'Sẵn sàng'},{title:'Hết phòng'}]}
+            options={[{title:'Sẵn sàng',value : 1},{title:'Đang thuê',value:2},{title:'Đang sữa chữa',value:3}]}
             getOptionLabel={(option) => option.title}
             style={{ width: 400,marginBottom:15 }}
-            renderInput={(params) => <TextField {...params} label={dataRoom.TrangThai} variant="outlined" />}
+            renderInput={(params) => <TextField {...params} label={dataRoom.length === 0 ? '' :dataRoom.TrangThai.toString() === '3' ? 'Đang sữa chữa' : dataRoom.TrangThai.toString()==='2' ? 'Đang cho thuê' : 'Sẵn sàng'} variant="outlined" />}
             onChange={(event, newValue) => handleChangeCbb(event,newValue,2)}
             required
             />

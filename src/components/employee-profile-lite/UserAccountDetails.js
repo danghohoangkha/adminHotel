@@ -15,12 +15,13 @@ import {
   // FormTextarea,
   // Button
 } from "shards-react";
-import CallAPI from '../../utils/callAPI'
-import {FormGroup,FormControlLabel,Switch} from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from '@material-ui/core/TextField';
+import {useHistory} from 'react-router-dom';
 import useStyles from './style'
 import callAPI from '../../utils/callAPI'
-
 export default function UserAccountDetails ({ data })  {
+  let history = useHistory()
   const classes=useStyles()
   const [HoTen,setHoTen]=React.useState('')
   const [GioiTinh,setGioiTinh]=React.useState('')
@@ -28,7 +29,11 @@ export default function UserAccountDetails ({ data })  {
   const [LuongCoBan,setLuongCoBan]=React.useState('')
   const [LuongTangCa,setLuongTangCa]=React.useState('')
   const [ChucVu,setChucVu] = React.useState(1) 
-  const [error,setError]=React.useState(false);
+  const [error,setError] = React.useState(false)
+  const [success,setSuccess]=React.useState(false)
+  const [deleteError,setDeleteError]=React.useState(false)
+  const male = [{title:'nam'},{title:'nữ'}]
+  
   React.useEffect(()=>{
     if(data.length!==0)
     {
@@ -43,6 +48,7 @@ export default function UserAccountDetails ({ data })  {
   const handleSubmit = (e)=>{
     e.preventDefault()
     callAPI(`change_employee/${data[0].MaNV}`, 'POST',{'HoTen':HoTen,'GioiTinh':GioiTinh,'DiaChi':DiaChi,'LuongCoBan':LuongCoBan,'LuongTangCa':LuongTangCa,'ChucVu':ChucVu}).then(res =>{
+      setSuccess(true)
     }).catch(error=>{
       console.log(error)
       setError(true)
@@ -74,9 +80,26 @@ export default function UserAccountDetails ({ data })  {
       setChucVu(e.target.value)
     }
   }
+  const handleChangeCbb = (value)=>{
+    console.log(value);
+    setGioiTinh(value.title);
+  }
+  const handleDelete = ()=>{
+    callAPI('DeleteEmployee','POST',{MaNV:data[0].MaNV}).then(res=>{
+      history.push('/employee-management')
+    }).catch(error)
+    {
+      console.log(error)
+      setDeleteError(true);
+    }
+  }
   return (
   <Card small className="mb-4">
     <CardHeader className="border-bottom">
+      <h6 className = {error ? '' : classes.hidecls}>{'Cập nhật thông tin thất bại'}</h6>
+      <h6 className = {error ? '' : classes.hidecls}>{'Cập nhật thông tin thất bại'}</h6>
+      <h6 className = {success ? '' : classes.hidecls}>{'Cập nhật thông tin thành công'}</h6>
+      <h6 className = {deleteError ? '' : classes.hidecls}>{'Xóa nhân viên thất bại'}</h6>
       <h6 className="m-0">{'Account Details'}</h6>
     </CardHeader>
     <ListGroup flush>
@@ -96,12 +119,24 @@ export default function UserAccountDetails ({ data })  {
                   />
                 </Col>
                 {/* Last Name */}
-                <Col md="6" className="form-group">
+                {/* <Col md="6" className="form-group">
                   <label htmlFor="feLastName">Gioi Tinh</label>
                   <FormInput
                     id="feFirstName"
                     placeholder={data.length===0?'':data[0].GioiTinh}
                     onChange={(e) => {handleChangeInput(e,2)}}
+                  />
+                </Col> */}
+                <Col md="6" className="form-group">
+                  <Autocomplete
+                  id="combo-box-demo"
+                  options={male}
+                  getOptionLabel={(option) => option.title}
+                  ListboxProps={{ style: { maxHeight: "5rem" }}}
+                  renderInput={(params) => <TextField {...params} label={data.length===0?'':data[0].GioiTinh} variant="outlined"
+                  />}
+                  onChange={(event, newValue) => handleChangeCbb(newValue)}
+                  required
                   />
                 </Col>
                 <Col md="6" className="form-group">
@@ -158,6 +193,15 @@ export default function UserAccountDetails ({ data })  {
                 control={<Switch checked={active} onChange={changeStateAcc}/>}
                 label="Active"
               /> */}
+              <Button
+                onClick = {handleDelete}
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit, data.length === 0 ? classes.deleteBtn : data[0].ChucVu.toString() === '1' ? classes.hidecls : classes.deleteBtn}
+              >
+                Delete
+              </Button>
           </Col>
         </Row>
       </ListGroupItem>
