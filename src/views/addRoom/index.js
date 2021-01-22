@@ -58,12 +58,13 @@ export default function AddRoom() {
   const [KhuyenMai,setKhuyenMai]=React.useState('')
   const [SoNguoiToiDa,setSoNguoiToiDa]=React.useState(1)
   const [MoTa,setMoTa]=React.useState('')
+  const [TenP,setTenP]=React.useState('')
   const [error,setError]=React.useState(false)
   const [success,setSuccess]=React.useState(false)
   const typeRoom = [{title : 'đôisang'},{title:'đôithường'},{title:'đơnsang'},{title:'đơnthường'}]
   const handleSubmit = (e)=>{
     e.preventDefault()
-    callAPI(`addRoom`, 'POST',{'LoaiP':LoaiP,'GiaThue':GiaThue,'KhuyenMai':KhuyenMai,'SoNguoiToiDa':SoNguoiToiDa,'MoTa':MoTa}).then(res =>{
+    callAPI(`addRoom`, 'POST',{'TenP':TenP,'LoaiP':LoaiP,'GiaThue':GiaThue,'KhuyenMai':KhuyenMai,'SoNguoiToiDa':SoNguoiToiDa,'MoTa':MoTa}).then(res =>{
         setSuccess(true)
     }).catch(error=>{
       console.log(error)
@@ -78,6 +79,10 @@ export default function AddRoom() {
       if(type===4)
       {
           setMoTa(e.target.value)
+      }
+      else if(type===0)
+      {
+        setTenP(e.target.value)
       }
       else if(type===1)
       {
@@ -118,6 +123,17 @@ export default function AddRoom() {
             onChange={(event, newValue) => handleChangeCbb(newValue)}
             required
             />
+            <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="Ten phong"
+            label="Ten phong"
+            name="TenPhong"
+            autoFocus
+            onChange={(e)=>handleChangeInPut(e,0)}
+          />
             <TextField
             variant="outlined"
             margin="normal"

@@ -59,12 +59,13 @@ export default function DetailRoom({location}) {
   const [KhuyenMai,setKhuyenMai]=React.useState('')
   const [SoNguoiToiDa,setSoNguoiToiDa]=React.useState(1)
   const [MoTa,setMoTa]=React.useState('')
+  const [TenP,setTenP]=React.useState('')
   const [error,setError]=React.useState(false)
   const [success,setSuccess]=React.useState(false)
   const typeRoom = [{title : 'đôisang'},{title:'đôithường'},{title:'đơnsang'},{title:'đơnthường'}]
   const handleSubmit = (e)=>{
     e.preventDefault()
-    callAPI(`updateRoom/${location.match.params.id}`, 'POST',{'LoaiP':LoaiP,'GiaThue':GiaThue,'KhuyenMai':KhuyenMai,'SoNguoiToiDa':SoNguoiToiDa,'MoTa':MoTa,'TrangThai':TrangThai}).then(res =>{
+    callAPI(`updateRoom/${location.match.params.id}`, 'POST',{'TenP':TenP,'LoaiP':LoaiP,'GiaThue':GiaThue,'KhuyenMai':KhuyenMai,'SoNguoiToiDa':SoNguoiToiDa,'MoTa':MoTa,'TrangThai':TrangThai}).then(res =>{
         setSuccess(true);
     }).catch(error=>{
       console.log(error)
@@ -116,9 +117,13 @@ export default function DetailRoom({location}) {
       {
           setKhuyenMai(e.target.value)
       }
-      else
+      else if(type===3)
       {
           setSoNguoiToiDa(e.target.value)
+      }
+      else{
+        console.log('Vao day ne')
+        setTenP(e.target.value)
       }
   }
   return (
@@ -186,6 +191,18 @@ export default function DetailRoom({location}) {
             InputProps={{ inputProps: { min: 1, max: 4 } }}
             autoFocus
             onChange={(e)=>handleChangeInPut(e,3)}
+          />
+          <h5>Tên phòng</h5>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            id="TenPhong"
+            label={dataRoom.TenP}
+            name="TenPhong"
+            autoFocus
+            onChange={(e)=>handleChangeInPut(e,5)}
           />
           <h5>Mô tả</h5>
            {/* <TextField
