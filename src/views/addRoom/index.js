@@ -64,8 +64,7 @@ export default function AddRoom() {
   const handleSubmit = (e)=>{
     e.preventDefault()
     callAPI(`addRoom`, 'POST',{'LoaiP':LoaiP,'GiaThue':GiaThue,'KhuyenMai':KhuyenMai,'SoNguoiToiDa':SoNguoiToiDa,'MoTa':MoTa}).then(res =>{
-        console.log('Vao day roi ne')
-        history.push('/')
+        setSuccess(true)
     }).catch(error=>{
       console.log(error)
       setError(true)
@@ -107,7 +106,7 @@ export default function AddRoom() {
           Thêm phòng thất bại
         </Typography>
         <Typography component="h1" variant="h5" className={success ? "":classes.displaycls}>
-          Thêm phòng thất bại
+          Thêm phòng thành công
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
             <Autocomplete

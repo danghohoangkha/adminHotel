@@ -65,8 +65,6 @@ export default function DetailRoom({location}) {
   const handleSubmit = (e)=>{
     e.preventDefault()
     callAPI(`updateRoom/${location.match.params.id}`, 'POST',{'LoaiP':LoaiP,'GiaThue':GiaThue,'KhuyenMai':KhuyenMai,'SoNguoiToiDa':SoNguoiToiDa,'MoTa':MoTa,'TrangThai':TrangThai}).then(res =>{
-        console.log('Vao day roi ne')
-        window.location.reload()
         setSuccess(true);
     }).catch(error=>{
       console.log(error)
