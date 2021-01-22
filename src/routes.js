@@ -26,7 +26,7 @@ export default [
     path: "/",
     exact: true,
     layout: DefaultLayout,
-    component: () => <Redirect to="/user-management"/>
+    component: () => <Redirect to={localStorage.getItem('ChucVu').toString()==="1" ? "/user-management" : localStorage.getItem('ChucVu').toString()==="3"? "/createOrder" : "/"}/>
   },
   {
     path: "/login",
