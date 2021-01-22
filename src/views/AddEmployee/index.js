@@ -62,13 +62,14 @@ export default function AddRoom() {
   const [userName,setUserName]=React.useState('')
   const [passWord,setPassWord]=React.useState('')
   const [error,setError]=React.useState('')
+  const [success,setSuccess]=React.useState(false);
   const male = [{title : 'nam'},{title:'nữ'}]
   const chucVu = [{title: 'kế toán',value : '2'},{title:'lễ tân',value: '3'}]
   const handleSubmit = (e)=>{
     e.preventDefault()
     callAPI(`AddEmployee`, 'POST',{'HoTen':HoTen,'GioiTinh':GioiTinh,'NgaySinh':NgaySinh,'DiaChi':DiaChi,'LuongCoBan':LuongCoBan,'LuongTangCa':LuongTangCa,'userName':userName,'passWord':passWord,'ChucVu':ChucVu}).then(res =>{
         console.log('Vao day roi ne')
-        history.push('/employee-management')
+        setSuccess(true)
     }).catch(error=>{
       console.log(error)
       setError(true)
@@ -125,10 +126,13 @@ export default function AddRoom() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Thêm phòng
+          Thêm nhân viên
         </Typography>
         <Typography component="h1" variant="h5" className={error ? "":classes.displaycls}>
           Thêm nhân viên thất bại
+        </Typography>
+        <Typography component="h1" variant="h5" className={success ? "":classes.displaycls}>
+          Thêm nhân viên thành công
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit} >
             <TextField
